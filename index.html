@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="js/bundle.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+
+</head>
+
+<body>
+    <script>
+        async function loadDataSet() {
+            const dataset = await d3.csv("/database/vendas-TF.csv", function (data) {
+                return data;
+            });
+
+            console.log("DATASET:", dataset);
+        }
+        const dataset = loadDataSet();
+    </script>
+
+    <h1>Filtros</h1>
+
+    <h1>
+        Dataset Vendas
+    </h1>
+
+    <h1>Modelo</h1>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <h1>Marca</h1>
+    <div> </div>
+    <div> </div>
+    <div> </div>
+
+    <h1>estilo</h1>
+    <div> </div>
+    <div> </div>
+    <div> </div>
+
+</body>
+
+</html>
