@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -7,47 +7,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="js/bundle.js"></script>
+    <script src="js/barchat.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.17.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.17.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
 
 </head>
 
 <body>
     <script>
-        async function loadDataSet() {
-            const dataset = await d3.csv("/database/vendas-TF.csv", function (data) {
-                return data;
-            });
+        async function main() {
 
-            console.log("DATASET:", dataset);
+            function loadDataSet() {
+                const dataset = d3.csv("/database/vendas-TF.csv", function (data) {
+                    return data;
+                });
+
+                return dataset;
+            }
+
+            function loadDataSetAnos(ano) {
+                const dataset = d3.csv("/database/vendas-TF.csv", function (data) {
+                    if (data.ano === ano) {
+                        return data;
+                    }
+                });
+
+                return dataset;
+            }
+
+            function tratamentoDadosCount(data, attr) {
+            
+                let values = data.map(d => d[attr]);
+                var valores = values;
+                var unique = [... new Set(valores)].sort();
+                console.log(unique);
+                
+               console.log(unique.length);
+                let arrays_attr = [];
+                for (let index = 0; index < unique.length; index++) {   
+                    let count = 0;
+                    data.map(d=>{
+                        if(d[attr]===unique[index]){
+                            count+=1;
+                        }
+                    })
+                    arrays_attr.push({"name":unique[index],  "size":count});
+                }
+                return arrays_attr;
+            }
+
+            function tratamentoDadosSomar(data, attrX,attrY) {
+                let values = data.map(d => d[attrX]);
+                var valores = values;
+
+                var unique = [... new Set(valores)].sort();
+                console.log(unique);
+                
+               console.log(unique.length);
+                let arrays_attr = [];
+                for (let index = 0; index < unique.length; index++) {   
+                    let soma = 0;
+                    data.map(d=>{
+                        if(d[attrX]===unique[index]){
+                            console.log(attrY);
+                            soma+=parseFloat(d[attrY]);
+                        }
+                    })
+                    arrays_attr.push({"name":unique[index],  "preco":soma});
+                }
+                return arrays_attr;
+            }
+
+
+            function filtro_dataset(data,coluna,valor){
+                return data.filter(d=>d[coluna]===valor);
+            }
+
+
+            let dataset2016 = await loadDataSetAnos("2016");
+            let dataset2017 = await loadDataSetAnos("2017");
+            let dataset2018 = await loadDataSetAnos("2018");
+
+            const dataset_load = await loadDataSet();
+
+            const dataset_load_ano = await filtro_dataset(dataset_load,"mes","JUN")
+            const dataset_load_ano_mes = await filtro_dataset(dataset_load_ano,"ano","2016")
+            const filtro_marca = filtro_dataset(dataset_load_ano_mes,"marca","KIA")
+            
+            console.log("mes",dataset_load_ano);
+            console.log("mes",dataset_load_ano_mes);
+            console.log("marca",filtro_marca);
+
+        
+            const modelos_contados2016 = await tratamentoDadosCount(dataset2016, "modelo");
+            const modelos_contados2017 = await tratamentoDadosCount(dataset2017, "modelo");
+            const modelos_contados2018 = await tratamentoDadosCount(dataset2018, "modelo");
+          
+            const modelos_valor_2018 = await tratamentoDadosSomar(filtro_marca, "modelo","preco");
+            
+            console.log("size count",modelos_contados2016);
+
+            console.log("preco 2018",modelos_valor_2018);
+
+            console.log(dataset2016)
+            console.log(dataset2017)
+            console.log(dataset2018)
+            console.log("teste:", dataset_load);
+
+
+            const svgModelo = d3.select("#qtd_modelo");
+            console.log(svgModelo);
+            barchart(modelos_valor_2018, "modelo", "preco", svgModelo);
         }
-        const dataset = loadDataSet();
+
+        main();
+
     </script>
 
-    <h1>Filtros</h1>
+    <div>
+        <h1>Filtros coração</h1>
+    </div>
 
-    <h1>
-        Dataset Vendas
-    </h1>
+    <div>
+        <h1>
+            Dataset Vendas
+        </h1>
 
-    <h1>Modelo</h1>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+        <h1>Modelo</h1>
+        <div>
+            <svg width="600px" height="500px" id="qtd_modelo">
 
-    <h1>Marca</h1>
-    <div> </div>
-    <div> </div>
-    <div> </div>
+            </svg>
+        </div>
 
-    <h1>estilo</h1>
-    <div> </div>
-    <div> </div>
-    <div> </div>
+
+        <h1>Marca</h1>
+        <div> </div>
+
+
+        <h1>estilo</h1>
+        <div> </div>
+
+    </div>
+
+
 
 </body>
 
