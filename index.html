@@ -35,51 +35,51 @@
             }
 
             function tratamentoDadosCount(data, attr) {
-            
+
                 let values = data.map(d => d[attr]);
                 var valores = values;
                 var unique = [... new Set(valores)].sort();
                 console.log(unique);
-                
-               console.log(unique.length);
+
+                console.log(unique.length);
                 let arrays_attr = [];
-                for (let index = 0; index < unique.length; index++) {   
+                for (let index = 0; index < unique.length; index++) {
                     let count = 0;
-                    data.map(d=>{
-                        if(d[attr]===unique[index]){
-                            count+=1;
+                    data.map(d => {
+                        if (d[attr] === unique[index]) {
+                            count += 1;
                         }
                     })
-                    arrays_attr.push({"name":unique[index],  "size":count});
+                    arrays_attr.push({ "name": unique[index], "size": count });
                 }
                 return arrays_attr;
             }
 
-            function tratamentoDadosSomar(data, attrX,attrY) {
+            function tratamentoDadosSomar(data, attrX, attrY) {
                 let values = data.map(d => d[attrX]);
                 var valores = values;
 
                 var unique = [... new Set(valores)].sort();
                 console.log(unique);
-                
-               console.log(unique.length);
+
+                console.log(unique.length);
                 let arrays_attr = [];
-                for (let index = 0; index < unique.length; index++) {   
+                for (let index = 0; index < unique.length; index++) {
                     let soma = 0;
-                    data.map(d=>{
-                        if(d[attrX]===unique[index]){
+                    data.map(d => {
+                        if (d[attrX] === unique[index]) {
                             console.log(attrY);
-                            soma+=parseFloat(d[attrY]);
+                            soma += parseFloat(d[attrY]);
                         }
                     })
-                    arrays_attr.push({"name":unique[index],  "preco":soma});
+                    arrays_attr.push({ "name": unique[index], "preco": soma });
                 }
                 return arrays_attr;
             }
 
 
-            function filtro_dataset(data,coluna,valor){
-                return data.filter(d=>d[coluna]===valor);
+            function filtro_dataset(data, coluna, valor) {
+                return data.filter(d => d[coluna] === valor);
             }
 
 
@@ -89,24 +89,24 @@
 
             const dataset_load = await loadDataSet();
 
-            const dataset_load_ano = await filtro_dataset(dataset_load,"mes","JUN")
-            const dataset_load_ano_mes = await filtro_dataset(dataset_load_ano,"ano","2016")
-            const filtro_marca = filtro_dataset(dataset_load_ano_mes,"marca","KIA")
-            
-            console.log("mes",dataset_load_ano);
-            console.log("mes",dataset_load_ano_mes);
-            console.log("marca",filtro_marca);
+            const dataset_load_ano = await filtro_dataset(dataset_load, "mes", "JUN")
+            const dataset_load_ano_mes = await filtro_dataset(dataset_load_ano, "ano", "2016")
+            const filtro_marca = filtro_dataset(dataset_load_ano_mes, "marca", "KIA")
 
-        
+            console.log("mes", dataset_load_ano);
+            console.log("mes", dataset_load_ano_mes);
+            console.log("marca", filtro_marca);
+
+
             const modelos_contados2016 = await tratamentoDadosCount(dataset2016, "modelo");
             const modelos_contados2017 = await tratamentoDadosCount(dataset2017, "modelo");
             const modelos_contados2018 = await tratamentoDadosCount(dataset2018, "modelo");
-          
-            const modelos_valor_2018 = await tratamentoDadosSomar(filtro_marca, "modelo","preco");
-            
-            console.log("size count",modelos_contados2016);
 
-            console.log("preco 2018",modelos_valor_2018);
+            const modelos_valor_2018 = await tratamentoDadosSomar(filtro_marca, "modelo", "preco");
+
+            console.log("size count", modelos_contados2016);
+
+            console.log("preco 2018", modelos_valor_2018);
 
             console.log(dataset2016)
             console.log(dataset2017)
@@ -123,20 +123,82 @@
 
     </script>
 
-    <div>
-        <h1>Filtros coração</h1>
+    <div class="container">
+        <h1>Filtros </h1>
+        <div class="menu-select">
+            <label for="">Marca</label>
+            <select name="" id="">
+                <option>...</option>
+            </select>
+        </div>
+        <div class="menu-select">
+            <label for="">Marca</label>
+            <select name="" id="">
+                <option>...</option>
+            </select>
+        </div>
+        <div class="menu-select">
+            <label for="">Filial</label>
+            <select name="" id="">
+                <option>...</option>
+            </select>
+        </div>
+        <div class="menu-select">
+            <label for="">Ano</label>
+            <select name="" id="">
+                <option>...</option>
+            </select>
+        </div>
+        <div class="menu-select">
+            <label for="">Mês</label>
+            <select name="" id="">
+                <option>...</option>
+            </select>
+        </div>
     </div>
 
-    <div>
+    <!-- display: flex;
+flex: 1;
+    flex-shrink: 1;
+margin: 20 10 10 30;
+flex-direction: column;
+align-content: space-between;
+width: 200px;
+height: ;
+flex-shrink: 0; -->
+
+
+    <!-- width: 200px;
+    background-color: unset;
+    border-style: solid;
+    border-width: 0.2px;
+    border-radius: 5px;
+    height: 40px;
+} -->
+    <div class="container-dasboard">
         <h1>
             Dataset Vendas
         </h1>
 
-        <h1>Modelo</h1>
-        <div>
-            <svg width="600px" height="500px" id="qtd_modelo">
+        <div class="conteiner">
+            <div class="container-vis">
+                <h1>Qtd vendida por modelo</h1>
+                <svg width="600px" height="500px" id="qtd_modelo">
+                </svg>
+            </div>
+            <div class="container-vis">
+                <h1>Valor vendido por modelo R$</h1>
+                <svg width="600px" height="500px">
 
-            </svg>
+                </svg>
+            </div>
+            <div class="container-vis">
+                <h1>Margem por modelo R$</h1>
+                <svg width="600px" height="500px">
+
+                </svg>
+            </div>
+
         </div>
 
 
