@@ -85,6 +85,11 @@ select {
     border-color: transparent transparent #fff transparent;
     top: 7px;
   }
+
+  option{
+    background-color: rgb(71, 71, 71);
+  }
+  
   
   /*style the items (options), including the selected item:*/
   select {
@@ -113,4 +118,22 @@ select {
   
   select {
     background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .title{
+      display: flex;
+      width: 20px;
+      align-items: center;
+      font-size: 1.8em;
+      transform: rotate(-90deg);
+  }
+
+  svg rect:hover{
+    fill: aliceblue;
+    transition-delay: 2000;
+  }
+
+  svg path:hover{
+    fill: aliceblue;
+    transition-delay: 2000;
   }
