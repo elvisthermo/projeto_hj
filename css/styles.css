@@ -1,0 +1,116 @@
+div.container-vis{
+    background-color: #e3e3e3;
+    padding: 5px 20px 20px 5px;
+    margin: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.container-vis h1{
+    color: #fff;
+    padding: 10px;
+    background-color: red;
+    border-radius: 5px;
+    font-size: 1em;
+}
+.menu-select{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: steelblue;
+    color: #fff;
+}
+.conteiner-menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.conteiner-menu select{
+    margin: 10px 20px 20px 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+
+div.conteiner{
+    width: 100%;
+    display: flex;
+}
+
+
+div.span{
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+
+
+/* --------------------- */
+select {
+    position: relative;
+    font-family: Arial;
+  }
+  
+  .custom-select select {
+    display: none; /*hide original SELECT element:*/
+  }
+  
+  select {
+    background-color: DodgerBlue;
+  }
+  
+  /*style the arrow inside the select element:*/
+  select:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+  }
+  
+  /*point the arrow upwards when the select box is open (active):*/
+  .select-selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+  }
+  
+  /*style the items (options), including the selected item:*/
+  select {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  /*style items (options):*/
+  .select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
+  
+  /*hide the items when the select box is closed:*/
+  .select-hide {
+    display: none;
+  }
+  
+  select {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
