@@ -1,18 +1,7 @@
 async function main() {
-
     function loadDataSet() {
         const dataset = d3.csv("/database/vendas-TF.csv", function (data) {
             return data;
-        });
-
-        return dataset;
-    }
-
-    function loadDataSetAnos(ano) {
-        const dataset = d3.csv("/database/vendas-TF.csv", function (data) {
-            if (data.ano === ano) {
-                return data;
-            }
         });
 
         return dataset;
@@ -33,11 +22,10 @@ async function main() {
                 }
             })
 
-            arrays_attr.push({ "name": unique[index], "value": count*100/data.length });
+            arrays_attr.push({ "name": unique[index], "value": count * 100 / data.length });
         }
         return arrays_attr;
     }
-
 
     function tratamentoBarChartDadosCount(data, attr) {
 
@@ -57,7 +45,6 @@ async function main() {
         }
         return arrays_attr;
     }
-
 
     function tratamentoDadosSomar(data, attrX, attrY) {
         let values = data.map(d => d[attrX]);
@@ -79,48 +66,112 @@ async function main() {
         return arrays_attr;
     }
 
-
     function filtro_dataset(data, coluna, valor) {
         return data.filter(d => d[coluna] === valor);
     }
 
 
-    // let dataset2016 = await loadDataSetAnos("2016");
-    // let dataset2017 = await loadDataSetAnos("2017");
-    // let dataset2018 = await loadDataSetAnos("2018");
-
-
-    // const dataset_load_ano = await filtro_dataset(dataset_load, "mes", "JUN")
-    // const dataset_load_ano_mes = await filtro_dataset(dataset_load_ano, "ano", "2016")
-    // const filtro_marca = filtro_dataset(dataset_load_ano_mes, "marca", "KIA")
-
-    // console.log("mes", dataset_load_ano);
-    // console.log("mes", dataset_load_ano_mes);
-    // console.log("marca", filtro_marca);
-
-
-    // const modelos_contados2016 = await tratamentoDadosCount(dataset2016, "modelo");
-    // const modelos_contados2017 = await tratamentoDadosCount(dataset2017, "modelo");
-    // const modelos_contados2018 = await tratamentoDadosCount(dataset2018, "modelo");
-
-    // const modelos_valor_2018 = await tratamentoDadosSomar(filtro_marca, "modelo", "preco");
-
-    // const modelos_margem_2018 = await tratamentoDadosSomar(filtro_marca, "modelo", "margem");
-    // console.log("margem:", modelos_margem_2018);
-
-    // const modelos_qtd_2018 = await tratamentoDadosCount(filtro_marca, "modelo");
-
-
-    // console.log("size count", modelos_contados2016);
-
-    // console.log("preco 2018", modelos_valor_2018);
-
-    // console.log(dataset2016)
-    // console.log(dataset2017)
-    // console.log(dataset2018)
-    // console.log("teste:", dataset_load);
+    function filtro_dataset_ano(data, coluna, valores) {
+        const dataset = [];
+        const valor = valores;
+        for (let i = 0; i < valores.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+                if(data[j][coluna] == valores[i]){
+                    dataset.push(data[j]);
+                }
+                
+            }
+        }
+        return dataset;
+    }
 
     const dataset_load = await loadDataSet();
+    let novoDataset;
+
+    document.getElementById("filtro_marca").addEventListener("change", filtro_marca);
+
+    document.getElementById("filtro_filial").addEventListener("change", filtro_marca);
+
+    document.getElementById("filtro_ano").addEventListener("change", filtro_marca);
+
+    const elements = document.getElementsByClassName("filtro_mes");
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', filtro_marca, false);
+    }
+
+    function filtro_marca() {
+        let atributo_marca = document.getElementById("filtro_marca").value;
+        let atributo_filial = document.getElementById("filtro_filial").value;
+        let atributo_ano = document.getElementById("filtro_ano").value;
+
+        var array_check = []
+        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            array_check.push(checkboxes[i].value)
+        }
+
+
+        let datesetFiltros_2 = dataset_load;
+
+        if (atributo_filial === "...") {
+            tratarDados(dataset_load)
+        }
+        if (atributo_filial != "...") {
+            datesetFiltros_2 = filtro_dataset(datesetFiltros_2, "filial", atributo_filial);
+            tratarDados(datesetFiltros_2)
+        }
+        if (atributo_marca != "...") {
+            datesetFiltros_2 = filtro_dataset(datesetFiltros_2, "marca", atributo_marca);
+            tratarDados(datesetFiltros_2)
+        }
+        if (atributo_ano != "...") {
+            datesetFiltros_2 = filtro_dataset(datesetFiltros_2, "ano", atributo_ano);
+            tratarDados(datesetFiltros_2)
+        }
+        if (array_check.length) {
+            datesetFiltros_2 = filtro_dataset_ano(datesetFiltros_2, "mes", array_check);
+            tratarDados(datesetFiltros_2)
+        }
+
+
+    };
+
+    async function tratarDados(dados) {
+        // tratamento de dados 
+        const modelo_qtd = await tratamentoBarChartDadosCount(dados, "modelo");
+        const modelo_valor = await tratamentoDadosSomar(dados, "modelo", "preco");
+        const modelo_margem = await tratamentoDadosSomar(dados, "modelo", "margem");
+
+
+        const marca_qtd_bar = await tratamentoBarChartDadosCount(dados, "marca");
+        const marca_valor = await tratamentoDadosSomar(dados, "marca", "preco");
+        const marca_margem = await tratamentoDadosSomar(dados, "marca", "margem");
+
+
+        const estilo_qtd_bar = await tratamentoBarChartDadosCount(dados, "estilo");
+        const estilo_valor = await tratamentoDadosSomar(dados, "estilo", "preco");
+        const estilo_margem = await tratamentoDadosSomar(dados, "estilo", "margem");
+
+        // bachart d3
+        barchart(modelo_qtd, "modelo", "size", svgModelo_1);
+        barchart(modelo_valor, "modelo", "preco", svgModelo_2);
+        barchart(modelo_margem, "modelo", "margem", svgModelo_3);
+
+        // piechart
+
+        barchart(marca_qtd_bar, "marca", "size", svgMarca_1);
+        barchart(marca_valor, "marca", "preco", svgMarca_2);
+        barchart(marca_margem, "marca", "margem", svgMarca_3);
+
+
+        barchart(estilo_qtd_bar, "estilo", "size", svgEstilo_1);
+        barchart(estilo_valor, "estilo", "preco", svgEstilo_2);
+        barchart(estilo_margem, "estilo", "margem", svgEstilo_3);
+
+
+    }
 
     // tratamento de dados 
     const modelo_qtd = await tratamentoBarChartDadosCount(dataset_load, "modelo");
@@ -137,13 +188,10 @@ async function main() {
     const estilo_valor = await tratamentoDadosSomar(dataset_load, "estilo", "preco");
     const estilo_margem = await tratamentoDadosSomar(dataset_load, "estilo", "margem");
 
-
-
     // containers svg
     const svgModelo_1 = d3.select("#qtd_modelo");
     const svgModelo_2 = d3.select("#preco_modelo");
     const svgModelo_3 = d3.select("#margem_modelo");
-
 
     const svgMarcaParticipacao = d3.select("#piechart_marca");
     const svgMarca_1 = d3.select("#qtd_marca");
@@ -156,6 +204,7 @@ async function main() {
     const svgEstilo_3 = d3.select("#margem_estilo");
 
 
+    //filtro
     // bachart d3
     barchart(modelo_qtd, "modelo", "size", svgModelo_1);
     barchart(modelo_valor, "modelo", "preco", svgModelo_2);
@@ -172,10 +221,8 @@ async function main() {
     barchart(estilo_valor, "estilo", "preco", svgEstilo_2);
     barchart(estilo_margem, "estilo", "margem", svgEstilo_3);
 
-    // painel 2
 
-
-    // barchart(modelos_qtd_2018, "modelo", "size", svgMarca_1);
 }
 
 main();
+

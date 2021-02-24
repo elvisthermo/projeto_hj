@@ -22,6 +22,7 @@ div.container-vis h1{
     flex-direction: column;
     padding: 10px;
     width: 100%;
+    height: 80px;
     border-radius: 5px;
     margin: 5px;
     background-color: steelblue;
@@ -99,6 +100,13 @@ select {
     border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
     cursor: pointer;
     user-select: none;
+  }
+
+  .mes{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    /* height: 100px; */
   }
   
   /*style items (options):*/

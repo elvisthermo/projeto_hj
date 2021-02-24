@@ -9,61 +9,52 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="js/barchat.js"></script>
     <script src="js/piechart.js"></script>
-    <script src="js/main.js"></script>
 
     <link rel="stylesheet" href="css/styles.css">
-
 
 </head>
 
 <body>
-    <script>
-
-
-    </script>
-
     <div class="conteiner-menu">
         <div class="menu-select">
             <label for="">Marca</label>
-            <select name="" id="">
+            <select id="filtro_marca">
+                <option value="...">...</option>
                 <option value="KIA">KIA</option>
                 <option value="HYUNDAI">HYUNDAI</option>
             </select>
         </div>
         <div class="menu-select">
             <label for="">Filial</label>
-            <select name="" id="">
+            <select id="filtro_filial">
+                <option value="...">...</option>
                 <option value="BOTAFOGO">BOTAFOGO</option>
                 <option value="CENTRO">CENTRO</option>
-            
+
             </select>
         </div>
         <div class="menu-select">
             <label for="">Ano</label>
-            <select name="" id="">
+            <select id="filtro_ano">
+                <option value="...">...</option>
                 <option value="2016">2016</option>
                 <option value="2017">2017</option>
                 <option value="2018">2018</option>
             </select>
         </div>
-        <div class="menu-select">
-            <label for="">Mês</label>
-            <select name="" id="">
-                <option value="JAN">JAN</option>
-                <option  value="FEV" >FEV</option>
-                <option  value="MAR" >MAR</option>
-                <option  value="MAR" >MAR</option>
-                <option  value="MAR" >MAR</option>
-                <option  value="JUN" >JUN</option>
-                <option  value="JUL" >JUL</option>
-                <option  value="AGO" >AGO</option>
-                <option  value="SET" >SET</option>
-                <option  value="OUT" >OUT</option>
-                <option  value="NOV" >NOV</option>
-                <option  value="DEZ" >DEZ</option>
-            
-            
-            </select>
+        <div class="menu-select mes">
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_JAN" value="JAN">JAN</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_FEV" value="FEV">FEV</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_MAR" value="MAR">MAR</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_ABR" value="ABR">ABR</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_MAI" value="MAR">MAI</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_JUN" value="JUN">JUN</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_JUL" value="JUL">JUL</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_AGO" value="AGO">AGO</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_SET" value="SET">SET</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_OUT" value="OUT">OUT</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_NOV" value="NOV">NOV</input>
+            <input class="filtro_mes" type="checkbox" id="filtro_mes_DEZ" value="DEZ">DEZ</input>
         </div>
     </div>
 
@@ -156,13 +147,9 @@
 
             </div>
         </div>
-
-
-
-
     </div>
 
-
+    <script src="js/main.js"></script>
 
 </body>
 

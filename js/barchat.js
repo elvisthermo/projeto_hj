@@ -1,5 +1,10 @@
-// 
-
+/**
+ * 
+ * @param {data} -dataset arquivo 
+ * @param {eixoX} -eixoX string eixo X
+ * @param {eixoY} -eixoY string do eixo Y
+ * @param {svg} -svg Svg container
+ */
 function barchart(data, eixoX, eixoY, svg) {
     let width = 400;
     let height = 200;
@@ -9,20 +14,26 @@ function barchart(data, eixoX, eixoY, svg) {
         .attr("width", width)
         .attr("height", height)
 
+    //posição das barras    
+
+    svg.selectAll("g").remove();
     const x = d3.scaleBand()
         .domain(d3.range(data.length))
         .range([margin.left, width - margin.right])
         .padding(0.1)
 
+    //altura da barras    
     const y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d[eixoY])]).nice()
         .range([height - margin.bottom, margin.top])
 
+    //chamada eixo x
     const xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .style('font-size', "8px")
         .call(d3.axisBottom(x).tickFormat(i => data[i].name).tickSizeOuter(0))
 
+    //chamada eixo Y    
     const yAxis = g => g
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y).ticks(null, data.format))
@@ -34,8 +45,7 @@ function barchart(data, eixoX, eixoY, svg) {
             .attr("text-anchor", "start")
             .text(data[eixoX]))
 
-
-
+    //desenhar baras
     svg.append("g")
         .attr("fill", 'steelblue')
         .selectAll("rect")
@@ -45,12 +55,13 @@ function barchart(data, eixoX, eixoY, svg) {
         .attr("y", d => y(d[eixoY]))
         .attr("height", d => y(0) - y(d[eixoY]))
         .attr("width", x.bandwidth());
+    //escrever titulos
     svg
         .selectAll("text")
         .data(data)
         .join("text")
         .text(d => d[eixoY])
-        .attr('x',(d, i) => x(i)+ x.bandwidth() / 2)
+        .attr('x', (d, i) => x(i) + x.bandwidth() / 2)
         .attr('y', d => y(d[eixoY]))
         .attr('text-anchor', 'middle')
         .style('font-family', 'sans-serif')

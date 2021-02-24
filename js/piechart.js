@@ -1,17 +1,21 @@
-
+/**
+ * 
+ * @param {data} -dataset 
+ * @param {name} -nome da coluna para agrupar
+ * @param {svg} -svg  container 
+ */
 function pieChart(data, name, svg) {
     let width = 250;
     let height = 250;
-    let margin = { top: 30, right: 30, bottom: 30, left: 30 }
 
     const dataset = data;
-
-
     svg
         .attr("width", width)
         .attr("height", height)
 
     const radius = Math.min(width, height) / 2
+
+    svg.selectAll("g").remove();
 
     const pie = d3.pie()
         .padAngle(0.005)
@@ -26,7 +30,7 @@ function pieChart(data, name, svg) {
         .domain(dataset.map(d =>d.name))
         .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse())
 
-
+// desenhar arcos da pizza
     svg.selectAll("path")
         .data(arcs)
         .join("path")
@@ -34,7 +38,7 @@ function pieChart(data, name, svg) {
         .attr("d", arc)
         .attr("transform", `translate(${width / 2},${height / 2})`)
 
-
+// escrever titulos
     svg.append("g")
         .attr("transform", `translate(${width / 2},${height / 2})`)
 
